@@ -4,16 +4,20 @@ A Reverse File Proxy
 ##Building
 
 ##Architecture
-There is a top level interface that is used by implementers. It should take the
-file name and the destination and return a file. This interface is used between
-the HTTP proxy server and the backend.
+The main interface for this package is Proxy. Implementers should use that and a
+ProxyBuilder to construct the proxy, then pass file names and sources in to
+retrieve files from said sources. The Proxy will return a ReadCloser or an
+error.
 
-The backend implementations implement the interface mentioned above. There
-should be a single interface for both local and remote files. This allows
-additional file systems to be added without needing to change much code, if any,
-on the HTTP proxy server side.
+The sources for files implement the FileSource interface. This interface is
+structured similarly to the http package's FileSystem, the main difference being
+the Open method returns an io.ReadCloser instead of an http.File. This is done
+so that an http.Response.Body does not need to wrapped in an implementation of
+http.File. Since this interface only has a single Open method, it is fairly
+trivial to add new types of file sources.
 
-Below this top level interface should be the interfaces that handle actually
-retrieving local or remote files. The implementations of these interfaces
-register with the implementation of the top level interface, filling a
-particular type of file system.
+This package provides two FileSource implementations, one for the local file
+system, and another for a remote file system. The local file system
+implementation wraps the http.Dir implementation while the remote file system is
+written from scratch. The path for the local and URL for the remote are
+configurable.
