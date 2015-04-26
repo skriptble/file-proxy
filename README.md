@@ -1,7 +1,28 @@
 # file-proxy
 A Reverse File Proxy
 
-##Building
+##Dependencies
+The Froxy library depends only on the Go standard library. Go version 1.4 and
+above is suggested. The Froxy command uses spf13's Cobra and Viper, both of
+which have been vendored into the cmd/foxy directory.
+
+##Installing and Building
+
+##Testing
+Testing from a third party service can be achieved by starting this service, and
+pointing the remote endpoint at a server the third party controls or knows the
+contents of. The third party may then execute several requests to froxy,
+evaluating the responses are correct.
+
+Testing the local proxy functionality requires the service to be running in an
+environment under the control of the tester. The tester should place files
+somewhere in the local environment, start the froxy service, pointing the local
+endpoint at the local environment. The tester may then execute several tests
+from another service or machine and validate the responses are correct.
+
+Unit and Functional tests have been written for each component of the library.
+These tests cover most of the paths through each individual component.
+Integration tests between components have not been written.
 
 ##Architecture
 The main interface for this package is Proxy. Implementers should use that and a
