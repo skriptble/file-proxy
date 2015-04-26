@@ -1,4 +1,4 @@
-# file-proxy
+# froxy
 A Reverse File Proxy
 
 ##Dependencies
@@ -7,6 +7,17 @@ above is suggested. The Froxy command uses spf13's Cobra and Viper, both of
 which have been vendored into the cmd/foxy directory.
 
 ##Installing and Building
+To install just the library run:
+
+```go
+go get github.com/skriptble/froxy
+```
+
+To install the library and the froxy command run:
+
+```go
+go get github.com/skriptble/froxy/...
+```
 
 ##Testing
 Testing from a third party service can be achieved by starting this service, and
