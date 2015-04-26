@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/skriptble/froxy"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"github.com/skriptble/froxy/cmd/froxy/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/skriptble/froxy/cmd/froxy/Godeps/_workspace/src/github.com/spf13/viper"
 )
 
 var proxy froxy.ProxyBuilder
