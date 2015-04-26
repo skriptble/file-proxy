@@ -2,6 +2,7 @@ package froxy
 
 import (
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"path"
@@ -25,6 +26,7 @@ func (r remote) Open(name string) (io.ReadCloser, error) {
 	// Make the request
 	resp, err := http.Get(href.String())
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	// Ensure we got a 2xx, if not return a 404
