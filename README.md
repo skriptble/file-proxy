@@ -31,6 +31,13 @@ somewhere in the local environment, start the froxy service, pointing the local
 endpoint at the local environment. The tester may then execute several tests
 from another service or machine and validate the responses are correct.
 
+Testing of the binary itself could be achieved with a shell script that runs and
+sets various flags and environment variables and ensuring the binary starts up
+correctly, with the FileSources initialized to the correct directory or URL. The
+application could also be refactored to allow testing of this functionality
+internally by setting the various flags and environment variables to an
+injectable struct or type.
+
 Unit and Functional tests have been written for each component of the library.
 These tests cover most of the paths through each individual component.
 Integration tests between components have not been written.
