@@ -14,7 +14,9 @@ import (
 	"github.com/skriptble/froxy/cmd/froxy/Godeps/_workspace/src/github.com/spf13/viper"
 )
 
-var proxy froxy.ProxyBuilder
+type proxyWrapper struct {
+	p froxy.ProxyBuilder
+}
 
 var rootCmd = &cobra.Command{
 	Use:   "froxy",
@@ -63,7 +65,7 @@ func server(cmd *cobra.Command, args []string) {
 		local = froxy.Dir(args[0])
 	}
 
-	proxy = froxy.NewProxy()
+	proxy := froxy.NewProxy()
 	proxy.AddFileSource(local, "local")
 	log.Printf("Local Proxy Directory: %v", local)
 
@@ -82,12 +84,16 @@ func server(cmd *cobra.Command, args []string) {
 		port = viper.GetInt("port")
 	}
 	addr := ":" + strconv.Itoa(port)
-	http.HandleFunc("/", handleRequest)
+	wrapper := proxyWrapper{p: proxy}
 	log.Printf("Listening on port %v", addr)
-	http.ListenAndServe(addr, nil)
+	http.ListenAndServe(addr, wrapper)
 }
 
-func handleRequest(w http.ResponseWriter, req *http.Request) {
+func (pw proxyWrapper) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	if req.Method != "GET" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
 	paths := strings.SplitN(req.URL.Path, "/", 3)
 	if len(paths) < 3 {
 		// We don't have enough pieces of the url. Return a 404 Not Found.
@@ -97,7 +103,7 @@ func handleRequest(w http.ResponseWriter, req *http.Request) {
 	}
 	source := paths[1]
 	name := paths[2]
-	file, err := proxy.RetrieveFile(name, source)
+	file, err := pw.p.RetrieveFile(name, source)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprint(w, err.Error())
