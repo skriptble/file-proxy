@@ -34,7 +34,7 @@ files and remote files.`,
 	}
 
 	rootCmd.PersistentFlags().StringP("local-dir", "l", ".", "directory for the local file proxy [FROXY_LOCAL_DIR]")
-	rootCmd.PersistentFlags().StringP("remote-url", "r", "", "url of the remote file proxy [FROXY_REMOTE_URL")
+	rootCmd.PersistentFlags().StringP("remote-url", "r", "", "url of the remote file proxy [FROXY_REMOTE_URL]")
 	rootCmd.PersistentFlags().IntP("port", "p", 8080, "port for the server [PORT]")
 	rootCmd.AddCommand(serverCmd)
 
