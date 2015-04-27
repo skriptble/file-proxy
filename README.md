@@ -4,7 +4,7 @@ A Reverse File Proxy
 ##Dependencies
 The Froxy library depends only on the Go standard library. Go version 1.4 and
 above is suggested. The Froxy command uses spf13's Cobra and Viper, both of
-which have been vendored into the cmd/foxy directory.
+which have been vendored into the cmd/froxy directory.
 
 ##Installing and Building
 To install just the library run:
